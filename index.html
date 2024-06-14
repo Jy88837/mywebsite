@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color and Number Matching Game</title>
+    <title>Baby Shark Matching Game</title>
     <style>
         body {
             display: flex;
@@ -12,67 +12,99 @@
             height: 100vh;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
+            background-image: url('https://example.com/baby-shark-background.jpg'); /* Replace with a real URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #333;
+            text-align: center;
         }
         .game-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        .question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .options {
             display: grid;
-            grid-template-columns: repeat(4, 100px);
+            grid-template-columns: repeat(2, 1fr);
             grid-gap: 20px;
         }
-        .game-tile {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid #000;
+        .option {
+            background-color: #ffcccc;
+            padding: 15px;
             border-radius: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            user-select: none;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-        .game-tile[data-color="red"] { background-color: #ffcccc; }
-        .game-tile[data-color="blue"] { background-color: #cce0ff; }
-        .game-tile[data-color="green"] { background-color: #ccffcc; }
-        .game-tile[data-color="yellow"] { background-color: #ffffcc; }
+        .option:hover {
+            background-color: #ff9999;
+        }
+        .praise {
+            display: none;
+            font-size: 24px;
+            color: green;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
 <div class="game-container">
-    <div class="game-tile" data-color="red" data-number="1">1</div>
-    <div class="game-tile" data-color="blue" data-number="2">2</div>
-    <div class="game-tile" data-color="green" data-number="3">3</div>
-    <div class="game-tile" data-color="yellow" data-number="4">4</div>
-    <div class="game-tile" data-color="red" data-number="1">1</div>
-    <div class="game-tile" data-color="blue" data-number="2">2</div>
-    <div class="game-tile" data-color="green" data-number="3">3</div>
-    <div class="game-tile" data-color="yellow" data-number="4">4</div>
+    <div class="question" id="question">Which one is red?</div>
+    <div class="options">
+        <div class="option" data-answer="true" onclick="checkAnswer(this)">Red</div>
+        <div class="option" data-answer="false" onclick="checkAnswer(this)">Blue</div>
+        <div class="option" data-answer="false" onclick="checkAnswer(this)">Green</div>
+        <div class="option" data-answer="false" onclick="checkAnswer(this)">Yellow</div>
+    </div>
+    <div class="praise" id="praise">Great job!</div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const tiles = document.querySelectorAll('.game-tile');
-        let selectedTile = null;
+    let currentQuestion = 0;
+    const questions = [
+        { question: "Which one is red?", options: ["Red", "Blue", "Green", "Yellow"], answer: "Red" },
+        { question: "Which one is nine?", options: ["Seven", "Eight", "Nine", "Ten"], answer: "Nine" },
+        { question: "Which one is blue?", options: ["Red", "Blue", "Green", "Yellow"], answer: "Blue" },
+        { question: "Which one is five?", options: ["Five", "Six", "Seven", "Eight"], answer: "Five" },
+        { question: "Which one is green?", options: ["Red", "Blue", "Green", "Yellow"], answer: "Green" },
+    ];
 
-        tiles.forEach(tile => {
-            tile.addEventListener('click', () => {
-                if (selectedTile) {
-                    if (selectedTile !== tile && selectedTile.dataset.color === tile.dataset.color && selectedTile.dataset.number === tile.dataset.number) {
-                        selectedTile.style.visibility = 'hidden';
-                        tile.style.visibility = 'hidden';
-                        selectedTile = null;
-                    } else {
-                        selectedTile.classList.remove('selected');
-                        selectedTile = null;
-                    }
-                } else {
-                    selectedTile = tile;
-                    selectedTile.classList.add('selected');
-                }
-            });
+    function checkAnswer(option) {
+        if (option.dataset.answer === "true") {
+            document.getElementById('praise').style.display = 'block';
+            setTimeout(nextQuestion, 2000);
+        } else {
+            option.style.backgroundColor = '#ff6666';
+            setTimeout(() => { option.style.backgroundColor = '#ffcccc'; }, 1000);
+        }
+    }
+
+    function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion >= questions.length) {
+            alert('You have completed all the questions! Great job!');
+            currentQuestion = 0;
+        }
+        document.getElementById('praise').style.display = 'none';
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const question = questions[currentQuestion];
+        document.getElementById('question').textContent = question.question;
+        const options = document.querySelectorAll('.option');
+        options.forEach((option, index) => {
+            option.textContent = question.options[index];
+            option.dataset.answer = question.options[index] === question.answer;
         });
-    });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadQuestion);
 </script>
 
 </body>
