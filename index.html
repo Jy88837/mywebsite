@@ -1,146 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baby Shark Matching Game</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-            background-image: url('https://example.com/baby-shark-background.jpg'); /* Replace with a real URL */
-            background-size: cover;
-            background-repeat: no-repeat;
-            color: #333;
-            text-align: center;
-        }
-        .game-container {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-        }
-        .question {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-gap: 20px;
-        }
-        .option {
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 24px;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .option[data-color="red"] { background-color: red; }
-        .option[data-color="blue"] { background-color: blue; }
-        .option[data-color="green"] { background-color: green; }
-        .option[data-color="yellow"] { background-color: yellow; }
-        .praise {
-            display: none;
-            font-size: 24px;
-            color: green;
-            margin-top: 20px;
-        }
-    </style>
-</head>
+
+<html>
+<h1>
+Hi I’m Jasper
+</h1>
 <body>
-
-<div class="game-container">
-    <div class="question" id="question">Which one is red?</div>
-    <div class="options">
-        <div class="option" data-answer="true" data-color="red" onclick="checkAnswer(this)"></div>
-        <div class="option" data-answer="false" data-color="blue" onclick="checkAnswer(this)"></div>
-        <div class="option" data-answer="false" data-color="green" onclick="checkAnswer(this)"></div>
-        <div class="option" data-answer="false" data-color="yellow" onclick="checkAnswer(this)"></div>
-    </div>
-    <div class="praise" id="praise">Great job!</div>
-</div>
-
-<script>
-    let currentQuestion = 0;
-    const colors = ["red", "blue", "green", "yellow"];
-    const questions = [
-        { question: "Which one is red?", type: "color", answer: "red" },
-        { question: "Which one is blue?", type: "color", answer: "blue" },
-        { question: "Which one is green?", type: "color", answer: "green" },
-        { question: "Which one is yellow?", type: "color", answer: "yellow" },
-    ];
-
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function generateNumberQuestion() {
-        const answer = getRandomInt(1, 100);
-        let options = new Set([answer]);
-        while (options.size < 4) {
-            options.add(getRandomInt(1, 100));
-        }
-        options = Array.from(options);
-        return { question: `Which one is ${answer}?`, type: "number", options, answer: `${answer}` };
-    }
-
-    function loadQuestion() {
-        if (currentQuestion < 4) {
-            const question = questions[currentQuestion];
-            document.getElementById('question').textContent = question.question;
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, index) => {
-                option.style.backgroundColor = question.type === "color" ? question.options[index] : '#ffcccc';
-                option.textContent = question.type === "number" ? question.options[index] : '';
-                option.dataset.answer = question.options[index] === question.answer;
-                option.dataset.color = question.type === "color" ? question.options[index] : '';
-            });
-        } else {
-            const question = generateNumberQuestion();
-            document.getElementById('question').textContent = question.question;
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, index) => {
-                option.style.backgroundColor = '#ffcccc';
-                option.textContent = question.options[index];
-                option.dataset.answer = question.options[index] === question.answer;
-                option.dataset.color = '';
-            });
-        }
-    }
-
-    function checkAnswer(option) {
-        if (option.dataset.answer === "true") {
-            document.getElementById('praise').style.display = 'block';
-            setTimeout(nextQuestion, 2000);
-        } else {
-            option.style.backgroundColor = '#ff6666';
-            setTimeout(() => { option.style.backgroundColor = option.dataset.color || '#ffcccc'; }, 1000);
-        }
-    }
-
-    function nextQuestion() {
-        currentQuestion++;
-        if (currentQuestion >= 8) {
-            alert('You have completed all the questions! Great job!');
-            currentQuestion = 0;
-        }
-        document.getElementById('praise').style.display = 'none';
-        loadQuestion();
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        loadQuestion();
-    });
-</script>
-
+<h2>About me</h2>
+<p>	
+I am a coffee addict who takes photos sometimes.
+</p>	
+<h2>What I’m working on</h2>
+<p>
+I’m moving London
+</p>
 </body>
 </html>
